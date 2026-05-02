@@ -4,10 +4,21 @@ using System.Text;
 
 public class TrainingCourse
 {
-    public string CourseName;
-    public Teacher CourseTeacher;
-    public List<Student> EnrolledStudents; // Агрегація (учні існують окремо)
+    public string CourseName { get; set; }
 
-    public void AddStudent(Student student) { }
-    public void StartLesson() { }
+    // ВЗАЄМОЗВ'ЯЗОК: Агрегація (Вчитель і учні існують незалежно від курсу)
+    public Teacher CourseTeacher { get; set; }
+    public List<Student> EnrolledStudents { get; set; }
+
+    public TrainingCourse(string courseName, Teacher teacher)
+    {
+        CourseName = courseName;
+        CourseTeacher = teacher;
+        EnrolledStudents = new List<Student>(); // Ініціалізація порожнього списку
+    }
+
+    public void AddStudent(Student student)
+    {
+        EnrolledStudents.Add(student);
+    }
 }

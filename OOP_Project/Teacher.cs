@@ -4,9 +4,15 @@ using System.Text;
 
 public class Teacher
 {
-    public string FullName;
-    public string Specialization;
+    public string FullName { get; set; }
+    public string Specialization { get; set; }
 
-    public void ConductTraining() { }
-    public void CommunicateWithParents(Parent parent) { } // Асоціація
+    // Конструктор з параметрами
+    public Teacher(string fullName, string specialization)
+    {
+        FullName = fullName;
+        Specialization = specialization;
+    }
+
+    public override string ToString() => $"Вчитель: {FullName}, Спеціалізація: {Specialization}";
 }
