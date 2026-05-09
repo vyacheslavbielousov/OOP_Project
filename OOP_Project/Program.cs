@@ -4,55 +4,47 @@
     {
         Console.OutputEncoding = System.Text.Encoding.Unicode; // Unicode is UTF-16LE
         Console.InputEncoding = System.Text.Encoding.Unicode;
-        // Вимоги до протоколу
+        // Обов'язковий заголовок
         Console.WriteLine("ПІБ студента: [Ваше ПІБ], курс: [Ваш курс], група: [Ваша група]");
         Console.WriteLine("Варіант завдання: Kyiv Smart City School");
-        Console.WriteLine("Версія 2");
+        Console.WriteLine("Версія 3");
         Console.WriteLine("Старт імітації");
         Console.WriteLine("======================================================================");
 
-        // Демонстрація створення об'єктів та роботи конструкторів/аксесорів
+        // 1. Створення об'єктів
+        SmartSchool school = new SmartSchool("Kyiv Smart City Hub");
+        Teacher teacher = new Teacher("Олена Василівна", "Смарт Технології");
 
-        // 1. Учень (Конструктори та властивості)
-        Student defaultStudent = new Student(); // Без параметрів
+        // Створюємо курс з обмеженням у 2 учня для перевірки предикатної функції
+        TrainingCourse itCourse = new TrainingCourse("IT Basics", teacher, 2);
 
-        Student mainStudent = new Student("Олексій Петренко", 14); // Виклик через this
-        mainStudent.FullName = "Олексій О. Петренко"; // Робота set аксесора
+        Student student1 = new Student("Олексій", 14);
+        Student student2 = new Student("Марія", 15);
+        Student student3 = new Student("Іван", 13); // Третій учень (зайвий для курсу)
 
-        Student copiedStudent = new Student(mainStudent); // Конструктор копій
+        Parent parent = new Parent("Олександр", student1);
 
-        Console.WriteLine("--- Студенти (Конструктори, Копіювання, Аксесори) ---");
-        Console.WriteLine(defaultStudent);
-        Console.WriteLine(mainStudent);
-        Console.WriteLine("Копія студента: " + copiedStudent);
+        // 2. Демонстрація роботи предикатних функцій (стан об'єктів)
+        Console.WriteLine("\n--- Перевірка станів (Предикатні функції) ---");
+        Console.WriteLine($"Чи є на платформі інтерактивні задачі? : {school.HasInteractiveContent()}");
 
-        // 2. Вчитель
-        Teacher teacher1 = new Teacher("Олена Василівна", "Основи програмування та Смарт Технології");
-        Console.WriteLine("\n--- Вчитель ---");
-        Console.WriteLine(teacher1);
+        // Спроба додати учнів на курс
+        itCourse.AddStudent(student1);
+        itCourse.AddStudent(student2);
+        itCourse.AddStudent(student3); // Тут спрацює предикат IsCourseFull() і видасть помилку
 
-        // 3. Батьки (Асоціація)
-        Parent parent1 = new Parent("Олександр Петренко", mainStudent);
-        Console.WriteLine("\n--- Батьки (Демонстрація Асоціації) ---");
-        Console.WriteLine(parent1);
+        // 3. Демонстрація пріоритетних методів (Дії)
+        parent.CheckChildProgress(); // Перевірка до навчання
 
-        // 4. Навчальний курс (Агрегація)
-        TrainingCourse itCourse = new TrainingCourse("IT Basics для школярів", teacher1);
-        itCourse.AddStudent(mainStudent);
-        itCourse.AddStudent(copiedStudent);
-        Console.WriteLine("\n--- Навчальний курс (Демонстрація Агрегації) ---");
-        Console.WriteLine($"Курс: {itCourse.CourseName}, Викладає: {itCourse.CourseTeacher.FullName}");
-        Console.WriteLine($"Кількість учнів у групі: {itCourse.EnrolledStudents.Count}");
+        // Проводимо заняття (впливає на характеристики учнів)
+        itCourse.ConductLesson(5); // 5 годин навчання
 
-        // 5. Платформа (Статичний конструктор, Композиція, Закритий конструктор)
-        Console.WriteLine("\n--- Платформа (Статичний конструктор та Композиція) ---");
-        SmartSchool schoolBranch = new SmartSchool("Оболонська філія (Kyiv Smart City Hub)");
-        Console.WriteLine($"Філія: {schoolBranch.BranchName}, Розташування: {SmartSchool.City}");
-        Console.WriteLine("Контент платформи (Композиція):");
-        foreach (var content in schoolBranch.Database)
-        {
-            Console.WriteLine(" - " + content);
-        }
+        // Після заняття
+        Console.WriteLine("--- Стан учнів після навчання ---");
+        Console.WriteLine(student1);
+        Console.WriteLine(student2);
+
+        parent.CheckChildProgress(); // Перевірка після навчання (предикат IsReadyForAdvancedIT змінить результат)
 
         Console.WriteLine("======================================================================");
         Console.WriteLine("Фініш імітації");

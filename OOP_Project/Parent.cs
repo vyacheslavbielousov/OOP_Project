@@ -5,7 +5,6 @@ using System.Text;
 public class Parent
 {
     public string FullName { get; set; }
-    // ВЗАЄМОЗВ'ЯЗОК: Асоціація (Батьки знають про свою дитину)
     public Student Child { get; set; }
 
     public Parent(string fullName, Student child)
@@ -14,5 +13,17 @@ public class Parent
         Child = child;
     }
 
-    public override string ToString() => $"Батько/Мати: {FullName}, Дитина: {Child.FullName}";
+    // --- ВЕРСІЯ 3: Пріоритетний метод дій ---
+    public void CheckChildProgress()
+    {
+        Console.WriteLine($"\n[Батьківський контроль] {FullName} перевіряє успішність дитини ({Child.FullName}).");
+        if (Child.IsReadyForAdvancedIT())
+        {
+            Console.WriteLine(" -> Чудовий результат! Дитина готова до просунутих ІТ-курсів.");
+        }
+        else
+        {
+            Console.WriteLine(" -> Дитині ще потрібно попрацювати над логікою та soft skills.");
+        }
+    }
 }
