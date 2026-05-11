@@ -19,29 +19,85 @@ public class Student
     {
         FullName = fullName;
         Age = age;
-        LogicLevel = 10; // Початковий рівень
+        LogicLevel = 10;
         SoftSkillsLevel = 10;
     }
 
-    // --- ВЕРСІЯ 3: Пріоритетні методи дій ---
-    public void StudyProgramming(int hours)
+    // Методи з минулих версій
+    public void StudyProgramming(int hours) => LogicLevel += hours * 5;
+    public void DevelopSoftSkills(int hours) => SoftSkillsLevel += hours * 3;
+    public bool IsReadyForAdvancedIT() => LogicLevel >= 50 && SoftSkillsLevel >= 30;
+
+    // --- ВЕРСІЯ 4: Задачі другого пріоритету ---
+    public void CompleteHomework()
     {
-        LogicLevel += hours * 5; // Кожна година дає +5 до логіки
-        Console.WriteLine($"[Навчання] {FullName} вивчає програмування {hours} год. Рівень логіки тепер: {LogicLevel}");
+        LogicLevel += 5;
+        SoftSkillsLevel += 2;
+        Console.WriteLine($"[Домашнє завдання] {FullName} виконав ДЗ. Логіка: {LogicLevel}, SoftSkills: {SoftSkillsLevel}");
     }
 
-    public void DevelopSoftSkills(int hours)
+    // a) Бінарні арифметичні оператори (*, /)
+    // Множення на число (інтенсивне навчання)
+    public static Student operator *(Student s, int multiplier)
     {
-        SoftSkillsLevel += hours * 3; // Кожна година дає +3 до soft skills
-        Console.WriteLine($"[Soft Skills] {FullName} працює в команді {hours} год. Рівень Soft Skills тепер: {SoftSkillsLevel}");
+        s.LogicLevel *= multiplier;
+        return s;
     }
 
-    // --- ВЕРСІЯ 3: Предикатна функція ---
-    // Перевіряє, чи готовий учень до просунутого курсу (повертає true/false)
-    public bool IsReadyForAdvancedIT()
+    // Ділення (втрата концентрації)
+    public static Student operator /(Student s, int divider)
     {
-        return LogicLevel >= 50 && SoftSkillsLevel >= 30;
+        s.LogicLevel /= divider;
+        return s;
     }
 
-    public override string ToString() => $"Учень: {FullName}, Логіка: {LogicLevel}, SoftSkills: {SoftSkillsLevel}";
+    // b) Унарні оператори (+, -, ++, --, !, true, false)
+    public static Student operator ++(Student s)
+    {
+        s.LogicLevel += 10; // Підвищення рівня
+        return s;
+    }
+
+    public static Student operator --(Student s)
+    {
+        s.LogicLevel -= 5; // Зниження рівня
+        return s;
+    }
+
+    public static Student operator +(Student s) => s; // Унарний плюс (не змінює об'єкт)
+
+    public static Student operator -(Student s)
+    {
+        s.LogicLevel = 0; // Штраф (обнулення логіки)
+        return s;
+    }
+
+    public static bool operator !(Student s) => s.LogicLevel == 0; // Перевірка на нульові знання
+
+    public static bool operator true(Student s) => s.LogicLevel >= 20; // Вважається "успішним"
+    public static bool operator false(Student s) => s.LogicLevel < 20;
+
+    // c) Оператори порівняння (==, !=, <, >, <=, >=)
+    // Загальний бал учня для порівняння
+    private int TotalScore => LogicLevel + SoftSkillsLevel;
+
+    public static bool operator >(Student s1, Student s2) => s1.TotalScore > s2.TotalScore;
+    public static bool operator <(Student s1, Student s2) => s1.TotalScore < s2.TotalScore;
+    public static bool operator >=(Student s1, Student s2) => s1.TotalScore >= s2.TotalScore;
+    public static bool operator <=(Student s1, Student s2) => s1.TotalScore <= s2.TotalScore;
+
+    public static bool operator ==(Student s1, Student s2)
+    {
+        if (ReferenceEquals(s1, s2)) return true;
+        if (s1 is null || s2 is null) return false;
+        return s1.TotalScore == s2.TotalScore;
+    }
+
+    public static bool operator !=(Student s1, Student s2) => !(s1 == s2);
+
+    // Перевизначення Equals та GetHashCode вимагається при перевантаженні == та !=
+    public override bool Equals(object obj) => obj is Student s && this == s;
+    public override int GetHashCode() => TotalScore.GetHashCode();
+
+    public override string ToString() => $"Учень: {FullName} (Оцінка: {TotalScore} -> Логіка: {LogicLevel}, SoftSkills: {SoftSkillsLevel})";
 }
