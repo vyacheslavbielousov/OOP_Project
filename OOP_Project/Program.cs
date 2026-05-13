@@ -4,47 +4,73 @@
     {
         Console.OutputEncoding = System.Text.Encoding.Unicode; // Unicode is UTF-16LE
         Console.InputEncoding = System.Text.Encoding.Unicode;
-        // Обов'язковий заголовок
         Console.WriteLine("ПІБ студента: [Ваше ПІБ], курс: [Ваш курс], група: [Ваша група]");
         Console.WriteLine("Варіант завдання: Kyiv Smart City School");
-        Console.WriteLine("Версія 3");
+        Console.WriteLine("Версія 4");
         Console.WriteLine("Старт імітації");
         Console.WriteLine("======================================================================");
 
-        // 1. Створення об'єктів
-        SmartSchool school = new SmartSchool("Kyiv Smart City Hub");
-        Teacher teacher = new Teacher("Олена Василівна", "Смарт Технології");
+        // Ініціалізація
+        Teacher teacher = new Teacher("Олег Іванович", "Програмування C#");
+        TrainingCourse csharpCourse = new TrainingCourse("C# Basic", teacher);
 
-        // Створюємо курс з обмеженням у 2 учня для перевірки предикатної функції
-        TrainingCourse itCourse = new TrainingCourse("IT Basics", teacher, 2);
+        Student student1 = new Student("Антон", 15);
+        Student student2 = new Student("Вікторія", 16);
 
-        Student student1 = new Student("Олексій", 14);
-        Student student2 = new Student("Марія", 15);
-        Student student3 = new Student("Іван", 13); // Третій учень (зайвий для курсу)
+        // Демонстрація методів 2-го пріоритету
+        Console.WriteLine("--- Методи 2-го пріоритету ---");
+        teacher.AssignHomework(student1);
 
-        Parent parent = new Parent("Олександр", student1);
+        // Демонстрація перевантажених бінарних операторів (+, -) для Курсу
+        Console.WriteLine("\n--- Бінарні оператори (+, -) для взаємодії ---");
+        csharpCourse += student1; // Еквівалент: csharpCourse = csharpCourse + student1;
+        csharpCourse += student2;
+        csharpCourse -= student1; // Відрахування
 
-        // 2. Демонстрація роботи предикатних функцій (стан об'єктів)
-        Console.WriteLine("\n--- Перевірка станів (Предикатні функції) ---");
-        Console.WriteLine($"Чи є на платформі інтерактивні задачі? : {school.HasInteractiveContent()}");
+        // Демонстрація унарних операторів (++, --, +, -, !)
+        Console.WriteLine("\n--- Унарні оператори ---");
+        Console.WriteLine($"До (++): {student2}");
+        student2++; // Підвищуємо рівень логіки на 10
+        Console.WriteLine($"Після (++): {student2}");
 
-        // Спроба додати учнів на курс
-        itCourse.AddStudent(student1);
-        itCourse.AddStudent(student2);
-        itCourse.AddStudent(student3); // Тут спрацює предикат IsCourseFull() і видасть помилку
+        student2--; // Знижуємо на 5
+        Console.WriteLine($"Після (--): {student2}");
 
-        // 3. Демонстрація пріоритетних методів (Дії)
-        parent.CheckChildProgress(); // Перевірка до навчання
+        // Демонстрація true / false (наприклад, умовні оператори використовують перевантаження true/false)
+        if (student2)
+        {
+            Console.WriteLine($"{student2.FullName} є успішним учнем (оператор true).");
+        }
 
-        // Проводимо заняття (впливає на характеристики учнів)
-        itCourse.ConductLesson(5); // 5 годин навчання
+        // Унарний мінус (штраф) і оператор !
+        student2 = -student2; // Обнулення знань
+        Console.WriteLine($"Після штрафу (-): {student2}");
+        if (!student2)
+        {
+            Console.WriteLine($"Знання {student2.FullName} дорівнюють нулю (оператор !).");
+        }
 
-        // Після заняття
-        Console.WriteLine("--- Стан учнів після навчання ---");
-        Console.WriteLine(student1);
-        Console.WriteLine(student2);
+        // Демонстрація бінарних математичних (*, /)
+        Console.WriteLine("\n--- Бінарні арифметичні оператори (*, /) ---");
+        student1++; // Підвищуємо до 25
+        Console.WriteLine($"Початковий Антон: {student1}");
+        student1 = student1 * 2; // Множення знань
+        Console.WriteLine($"Після інтенсиву (* 2): {student1}");
+        student1 = student1 / 2;
+        Console.WriteLine($"Після відпочинку (/ 2): {student1}");
 
-        parent.CheckChildProgress(); // Перевірка після навчання (предикат IsReadyForAdvancedIT змінить результат)
+        // Демонстрація операторів порівняння (>, <, >=, <=, ==, !=)
+        Console.WriteLine("\n--- Оператори порівняння ---");
+        Student sA = new Student("Максим", 14);
+        Student sB = new Student("Ірина", 15);
+        sA.StudyProgramming(5); // Збільшуємо знання
+
+        Console.WriteLine(sA);
+        Console.WriteLine(sB);
+
+        Console.WriteLine($"Максим > Ірина: {sA > sB}");
+        Console.WriteLine($"Максим == Ірина: {sA == sB}");
+        Console.WriteLine($"Максим != Ірина: {sA != sB}");
 
         Console.WriteLine("======================================================================");
         Console.WriteLine("Фініш імітації");
