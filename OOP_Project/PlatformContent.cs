@@ -1,19 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-public class PlatformContent
+public abstract class PlatformContent
 {
     public string Title { get; set; }
-    public string ContentType { get; set; }
 
-    private PlatformContent(string title, string contentType)
+    protected PlatformContent(string title)
     {
         Title = title;
-        ContentType = contentType;
     }
 
-    public static PlatformContent CreateContent(string title, string contentType)
+    // Абстрактний метод для відкриття контенту (Поліморфізм)
+    public abstract void OpenContent();
+}
+
+// Похідний клас 1: Відеоурок
+public class VideoLesson : PlatformContent
+{
+    public int DurationMinutes { get; set; }
+
+    public VideoLesson(string title, int duration) : base(title)
     {
-        return new PlatformContent(title, contentType);
+        DurationMinutes = duration;
+    }
+
+    public override void OpenContent()
+    {
+        Console.WriteLine($"[Відеоплеєр] Відтворення лекції '{Title}' ({DurationMinutes} хв)...");
+    }
+}
+
+// Похідний клас 2: Інтерактивне завдання
+public class InteractiveTask : PlatformContent
+{
+    public int MaxScore { get; set; }
+
+    public InteractiveTask(string title, int maxScore) : base(title)
+    {
+        MaxScore = maxScore;
+    }
+
+    public override void OpenContent()
+    {
+        Console.WriteLine($"[Тренажер] Запуск задачі '{Title}'. Максимальний бал: {MaxScore}");
     }
 }
