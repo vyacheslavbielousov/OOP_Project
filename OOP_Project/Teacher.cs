@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using System.Text;
 
-public class Teacher
+public class Teacher : Person, IActivityParticipant
 {
-    public string FullName { get; set; }
     public string Specialization { get; set; }
 
-    public Teacher(string fullName, string specialization)
+    // Виклик конструктора базового класу через base()
+    public Teacher(string fullName, string specialization) : base(fullName)
     {
-        FullName = fullName;
         Specialization = specialization;
     }
 
-    // --- ВЕРСІЯ 4: Задачі другого пріоритету ---
-    public void AssignHomework(Student student)
+    public override void DisplayRole()
     {
-        Console.WriteLine($"\n[Вчитель {FullName}] призначив домашнє завдання для {student.FullName}.");
-        student.CompleteHomework();
+        Console.WriteLine($"Роль: Викладач. ПІБ: {FullName}, Спеціалізація: {Specialization}");
+    }
+
+    // Реалізація інтерфейсу
+    public void PerformActivity()
+    {
+        Console.WriteLine($"[{FullName}] проводить онлайн-трансляцію курсу.");
     }
 }
