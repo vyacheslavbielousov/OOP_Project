@@ -5,25 +5,33 @@ using System.Text;
 public class SmartSchool
 {
     public string BranchName { get; set; }
-    public List<PlatformContent> Database { get; private set; }
-    public static string City { get; set; }
 
+    // Композиція з використанням абстрактного базового класу (Поліморфізм)
+    public List<PlatformContent> Database { get; private set; }
+
+    public static string City { get; set; }
     static SmartSchool() { City = "Київ"; }
 
     public SmartSchool(string branchName)
     {
         BranchName = branchName;
+
+        // Заповнення бази конкретними похідними об'єктами
         Database = new List<PlatformContent>
             {
-                PlatformContent.CreateContent("Основи алгоритмізації", "Інтерактивна задача"),
-                PlatformContent.CreateContent("Екологічна свідомість", "Відеолекція")
+                new VideoLesson("Що таке Smart City?", 15),
+                new InteractiveTask("Алгоритм роботи розумного світлофора", 10),
+                new VideoLesson("Екологія та IT", 20)
             };
     }
 
-    // --- ВЕРСІЯ 3: Предикатна функція ---
-    public bool HasInteractiveContent()
+    public void ShowAllContent()
     {
-        // Перевіряє, чи є в базі хоча б один інтерактивний контент
-        return Database.Exists(content => content.ContentType == "Інтерактивна задача");
+        Console.WriteLine($"\n--- База контенту школи '{BranchName}' ---");
+        foreach (var content in Database)
+        {
+            // Поліморфний виклик: система сама знає, чи це відео, чи задача
+            content.OpenContent();
+        }
     }
 }
