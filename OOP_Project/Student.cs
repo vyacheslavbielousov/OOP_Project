@@ -4,26 +4,56 @@ using System.Text;
 
 public class Student : Person, IActivityParticipant
 {
-    public int Age { get; set; }
+    private int _age;
+    public int Age
+    {
+        get { return _age; }
+        set
+        {
+            // ГЕНЕРАЦІЯ ВИНЯТКУ: Некоректність введення даних
+            if (value < 6 || value > 18)
+                throw new InvalidStudentAgeException($"Вік {value} є недопустимим. Школяр має бути віком від 6 до 18 років.");
+            _age = value;
+        }
+    }
+
     public int LogicLevel { get; private set; }
 
-    // Виклик конструктора базового класу через base()
     public Student(string fullName, int age) : base(fullName)
     {
-        Age = age;
+        Age = age; // Може викликати InvalidStudentAgeException
         LogicLevel = 10;
     }
 
-    // Перевизначення абстрактного методу
-    public override void DisplayRole()
-    {
-        Console.WriteLine($"Роль: Учень. ПІБ: {FullName}, Вік: {Age}");
-    }
+    public override void DisplayRole() => Console.WriteLine($"Роль: Учень. ПІБ: {FullName}, Вік: {Age}");
+    public void PerformActivity() { LogicLevel += 5; }
 
-    // Реалізація інтерфейсу (Задача 3-го пріоритету)
-    public void PerformActivity()
+    // ОБРОБКА ВИНЯТКІВ: Робота з файлами
+    public void SaveDataToFile(string filePath)
     {
-        LogicLevel += 5;
-        Console.WriteLine($"[{FullName}] розв'язує задачі з програмування. Логіка: {LogicLevel}");
+        StreamWriter writer = null;
+        try
+        {
+            writer = new StreamWriter(filePath, true);
+            writer.WriteLine($"[{DateTime.Now}] Студент: {FullName} | Логіка: {LogicLevel}");
+            Console.WriteLine($"[Файл] Дані студента '{FullName}' успішно збережено.");
+        }
+        catch (DirectoryNotFoundException ex)
+        {
+            Console.WriteLine($"[Помилка файлової системи] Директорію не знайдено: {ex.Message}");
+        }
+        catch (IOException ex)
+        {
+            Console.WriteLine($"[Помилка вводу/виводу] Не вдалося записати файл: {ex.Message}");
+        }
+        finally
+        {
+            // finally виконується завжди
+            if (writer != null)
+            {
+                writer.Close();
+                Console.WriteLine("[Файл] Потік запису закрито.");
+            }
+        }
     }
 }
