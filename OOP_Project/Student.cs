@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 public class Student : Person, IActivityParticipant
@@ -31,6 +32,7 @@ public class Student : Person, IActivityParticipant
     // ОБРОБКА ВИНЯТКІВ: Робота з файлами
     public void SaveDataToFile(string filePath)
     {
+        filePath = @"C:\Users\Slava\source\repos\OOP_Project\OOP_Project\bin\Debug\net10.0\student_data.txt";
         StreamWriter writer = null;
         try
         {

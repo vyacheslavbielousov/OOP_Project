@@ -4,7 +4,7 @@
     {
         Console.OutputEncoding = System.Text.Encoding.Unicode; // Unicode is UTF-16LE
         Console.InputEncoding = System.Text.Encoding.Unicode;
-        Console.WriteLine("ПІБ студента: [Ваше ПІБ], курс: [Ваш курс], група: [Ваша група]");
+        Console.WriteLine("ПІБ студента: Бєлоусов В'ячеслав, курс: 1, група: ІПЗ-12");
         Console.WriteLine("Варіант завдання: Kyiv Smart City School");
         Console.WriteLine("Версія 6");
         Console.WriteLine("Старт імітації");
@@ -77,7 +77,7 @@
         {
             Console.WriteLine("\nСпроба зберегти дані студента за неіснуючим шляхом...");
             Student tempStudent = new Student("Олексій", 16);
-            tempStudent.SaveDataToFile(@"Z:\InvalidDrive\student_data.txt");
+            tempStudent.SaveDataToFile(@"C:\Users\Slava\source\repos\OOP_Project\OOP_Project\bin\Debug\net10.0\student_data.txt");
         }
         catch (Exception ex)
         {
