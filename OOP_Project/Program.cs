@@ -77,7 +77,7 @@
         {
             Console.WriteLine("\nСпроба зберегти дані студента за неіснуючим шляхом...");
             Student tempStudent = new Student("Олексій", 16);
-            tempStudent.SaveDataToFile(@"C:\Users\Slava\source\repos\OOP_Project\OOP_Project\bin\Debug\net10.0\student_data.txt");
+            tempStudent.SaveDataToFile(@"student_data.txt");
         }
         catch (Exception ex)
         {
