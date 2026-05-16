@@ -9,6 +9,8 @@ public class TrainingCourse
     public Teacher CourseTeacher { get; set; }
     public List<Student> EnrolledStudents { get; set; }
 
+    public List<TrainingCourse>? AllCourses { get; set; }
+
     public TrainingCourse(string courseName, Teacher teacher, int maxCapacity)
     {
         CourseName = courseName;
@@ -26,6 +28,12 @@ public class TrainingCourse
         }
         EnrolledStudents.Add(student);
         Console.WriteLine($"[Курс] {student.FullName} успішно зарахований на '{CourseName}'.");
+
+         // ── Зберігаємо зміну одразу ─────────────────────────
+        if (AllCourses != null)
+            DataStore.SaveCourses(AllCourses);
+        else
+            DataStore.SaveCourses(new List<TrainingCourse> { this });
     }
 
     // Демонстрація можливого ділення на нуль
