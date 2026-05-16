@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-
-
 public static class DataStore
 {
      private static void WriteFile(string path, Action<StreamWriter> writeAction)

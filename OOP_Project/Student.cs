@@ -6,6 +6,7 @@ using System.Text;
 public class Student : Person, IActivityParticipant
 {
     private int _age;
+    
     public int Age
     {
         get { return _age; }
@@ -27,13 +28,14 @@ public class Student : Person, IActivityParticipant
     }
 
     public override void DisplayRole() => Console.WriteLine($"Роль: Учень. ПІБ: {FullName}, Вік: {Age}");
+    
     public void PerformActivity() { LogicLevel += 5; }
 
     // ОБРОБКА ВИНЯТКІВ: Робота з файлами
     public void SaveDataToFile(string filePath)
     {
         filePath = @"student_data.txt";
-        StreamWriter writer = null;
+        StreamWriter? writer = null;
         try
         {
             writer = new StreamWriter(filePath, true);
